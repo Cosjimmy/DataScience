@@ -4,23 +4,22 @@ from pyspark.sql.functions import lit, col,udf #udf for user-defined-function ma
 from pyspark.sql.types import StringType
 from pyspark.mllib.linalg import DenseVector
 
+
+
+train_path="./train.csv"
+test_path="./test.csv"
 sc = SparkContext()
-
-
-train_path='/data/trainData/train.csv'
-test_path='/data/testData/test.csv'
-
 #load csv to rdd
-train_rdd = sc.textFile(train_path)
-test_rdd = sc.textFile(test_path)
-
-#train_rdd.take(3)
+train_rdd = sc.textFile('file:///home/hadoop/DS/DataScienc/train.csv')
+#test_rdd = sc.textFile(test_path)
+#test_rdd.take(30)
+train_rdd.take(30)
 
 #RDD to DataFrame
 def parseTrain(rdd):
     header = rdd.first()#get header
     body = rdd.filter(lambda r:r!=header) #remove header
-
+    #print("Hello")
     def parseRow(row):
         #remove " and split rows by ,
         row_list = row.replace('&quot;','').split('&quot;','&quot;') #check quot uses 
@@ -55,7 +54,6 @@ def parseTest(rdd):
 
 train_df = parseTrain(train_rdd)
 test_df = parseTest(test_rdd)
-
 
 #Combine Train and Test Data
 train_df = train_df.withColumn('Mark',lit('train'))

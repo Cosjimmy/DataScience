@@ -20,7 +20,9 @@ from pyspark.sql.types import IntegerType
 from pyspark.sql.functions import UserDefinedFunction
 from pyspark.mllib.linalg import Vectors
 import os
+sc.addPyFile('/foo/pyspark_csv/pyspark_csv.py')
 import pyspark_csv as pycsv
+
 
 os.environ["SPARK_LOCAL_IP"] = "127.0.1.1" # set local IP
 
